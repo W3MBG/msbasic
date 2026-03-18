@@ -33,5 +33,5 @@
 .endif
 
 .ifdef MBG
-.include "bios.s"
+.include "MBG_6502/src/bios.s"
 .endif
