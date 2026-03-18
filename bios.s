@@ -17,13 +17,19 @@ ACIA_STATUS = $5001
 ACIA_CMD    = $5002
 ACIA_CTRL   = $5003
 
-lcd_data = $00          ; 1 byte, lcd status read
-LCDCMD = $01            ; 1 byte, lcd command / char
-READ_PTR = $02          ; 1 byte
-WRITE_PTR = $03         ; 1 byte
-LCD1PTR = $04           ; 2 bytes, line 1 address pointer
-LCD2PTR = $06           ; 2 bytes, line 2 address pointer
+;lcd_data = $00          ; 1 byte, lcd status read
+;LCDCMD = $01            ; 1 byte, lcd command / char
+READ_PTR = $00          ; 1 byte
+WRITE_PTR = $01         ; 1 byte
+;LCD1PTR = $04           ; 2 bytes, line 1 address pointer
+;LCD2PTR = $06           ; 2 bytes, line 2 address pointer
 IN_BUFFER = $0300       ; 256 Bytes, input buffer
+
+LOAD:
+                rts
+
+SAVE:
+                rts
 
 reset:
     ldx #$ff            ; Initialize stack pointer
@@ -36,7 +42,7 @@ reset:
     lda #%00000111      ; Set port A data direction
     sta DDRA
 
-    jsr lcd_init
+    ;jsr lcd_init
 
 ; Setup UART
 uart_config:
@@ -44,23 +50,28 @@ uart_config:
     sta ACIA_CTRL
     lda #%00001001      ; No parity, no echo, interrupts.
     sta ACIA_CMD
-    lda #%00011011      ; Begin with escape.
 
     jsr init_buffer
 
     jmp WOZMON
 
-chrin:
+MONRDKEY:
+CHRIN:
+    phx
     jsr buffer_size     ; Get buffer size
     beq nochar          ; branch if 0
     cmp #$b4            ; enable cts if less than 180
     bcc cts_enable
 getchar:
     jsr read_buffer     ; Get next char from buffer
-    jsr chrout          ; Echo it
+    jsr CHROUT          ; Echo it
+    sec
+    plx
     rts                 ; Return
 nochar:
     lda #0              ; Return 0 if buffer empty
+    clc
+    plx
     rts
 cts_enable:
     lda #%11111110      ; Set A0 low (CTS high)
@@ -68,7 +79,8 @@ cts_enable:
     sta PORTB           ; Store
     jmp getchar
 
-chrout:
+MONCOUT:
+CHROUT:
     pha                 ; Save A.
     sta ACIA_DATA       ; Output character.
     lda #$FF            ; Initialize delay loop.
@@ -79,10 +91,14 @@ txdelay:
     rts                 ; Return.
 
 
+INIT_BUFFER:
 init_buffer:
     pha
     lda WRITE_PTR
     sta READ_PTR
+    lda #$fe
+    and PORTB
+    sta PORTB
     pla
     rts
 
@@ -105,9 +121,9 @@ buffer_size:
     rts
 
 
-.include "code.asm"
+;.include "code.asm"
 
-.include "lcd.asm"
+;.include "lcd.asm"
 
 ;interrupt handlers
 nmi:
@@ -129,7 +145,7 @@ exit_irq:
     pla
     rti
 
-.include "wozmon.asm"
+.include "wozmon.s"
 
 ; Reset / interrupt vectors
 .segment "RESETVEC"
