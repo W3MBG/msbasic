@@ -29,7 +29,7 @@
 .endif
 
 .ifdef EATER
-.include "bios_eater.s"
+.include "bios.s"
 .endif
 
 .ifdef MBG
