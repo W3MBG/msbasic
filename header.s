@@ -14,3 +14,6 @@
 .ifdef EATER
         jmp COLD_START
 .endif
+.ifdef MBG
+        jmp COLD_START
+.endif

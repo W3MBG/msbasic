@@ -29,5 +29,9 @@
 .endif
 
 .ifdef EATER
+.include "bios_eater.s"
+.endif
+
+.ifdef MBG
 .include "bios.s"
 .endif

@@ -1,6 +1,24 @@
 .setcpu "65C02"
 .debuginfo
 
+.zeropage
+                .org ZP_START0
+READ_PTR:       .res 1
+WRITE_PTR:      .res 1
+
+;lcd_data = $00          ; 1 byte, lcd status read
+;LCDCMD = $01            ; 1 byte, lcd command / char
+;READ_PTR = $00          ; 1 byte
+;WRITE_PTR = $01         ; 1 byte
+;LCD1PTR = $04           ; 2 bytes, line 1 address pointer
+;LCD2PTR = $06           ; 2 bytes, line 2 address pointer
+;IN_BUFFER = $0300       ; 256 Bytes, input buffer
+
+.segment "INPUT_BUFFER"
+IN_BUFFER:   .res $100
+
+.segment "BIOS"
+
 ; Adresses for VIA
 PORTB = $6000
 PORTA = $6001
@@ -17,13 +35,6 @@ ACIA_STATUS = $5001
 ACIA_CMD    = $5002
 ACIA_CTRL   = $5003
 
-;lcd_data = $00          ; 1 byte, lcd status read
-;LCDCMD = $01            ; 1 byte, lcd command / char
-READ_PTR = $00          ; 1 byte
-WRITE_PTR = $01         ; 1 byte
-;LCD1PTR = $04           ; 2 bytes, line 1 address pointer
-;LCD2PTR = $06           ; 2 bytes, line 2 address pointer
-IN_BUFFER = $0300       ; 256 Bytes, input buffer
 
 LOAD:
                 rts

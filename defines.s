@@ -28,6 +28,9 @@ SYM1 := 1
 .elseif .def(eater)
 EATER := 1
 .include "defines_eater.s"
+.elseif .def(mbg)
+MBG := 1
+.include "defines_eater.s"
 .endif
 
 .ifdef CONFIG_2C
