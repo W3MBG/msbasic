@@ -84,6 +84,13 @@
                 keyword_rts "BEEP", BEEP
 .endif
 
+.ifdef MBG
+		keyword_rts "LCDCMD", LCDCMD
+		keyword_rts "LCDPRINT", LCDPRINT
+		keyword_rts "LCDCLEAR", LCDCLEAR
+        ;keyword_rts "BEEP", BEEP
+.endif
+
 		count_tokens
 
 		keyword	"TAB(", TOKEN_TAB
