@@ -31,7 +31,3 @@
 .ifdef EATER
 .include "bios.s"
 .endif
-
-.ifdef MBG
-.include "MBG_6502/src/bios.s"
-.endif

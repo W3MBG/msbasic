@@ -30,7 +30,7 @@ EATER := 1
 .include "defines_eater.s"
 .elseif .def(mbg)
 MBG := 1
-.include "MBG_6502/src/defines_mbg.s"
+.include "../6502/src/defines_mbg.s"
 .endif
 
 .ifdef CONFIG_2C
