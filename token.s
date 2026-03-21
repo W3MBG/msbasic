@@ -85,10 +85,7 @@
 .endif
 
 .ifdef MBG
-		keyword_rts "LCDCMD", LCDCMD
-		keyword_rts "LCDPRINT", LCDPRINT
-		keyword_rts "LCDCLEAR", LCDCLEAR
-        ;keyword_rts "BEEP", BEEP
+		.include "../6502/src/basic_tokens.s"
 .endif
 
 		count_tokens
