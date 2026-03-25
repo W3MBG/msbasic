@@ -488,6 +488,9 @@ QT_BYTES_FREE:
         .byte   CR,LF,CR,LF
   .endif
 QT_BASIC:
+  .ifdef MBG
+        .byte   "### MBG BASIC 0.1 ALPHA ###"
+  .endif
   .ifdef OSI
         .byte   "OSI 6502 BASIC VERSION 1.0 REV 3.2"
   .endif
@@ -525,6 +528,8 @@ QT_BASIC:
         .byte   "(C) 1978 MICROSOFT"
     .elseif .def(SYM1)
         .byte   "COPYRIGHT 1978 SYNERTEK SYSTEMS CORP."
+    .elseif .def(MBG)
+        .byte   "     MBG 6502 COMPUTER"
     .else
         .byte   "COPYRIGHT 1977 BY MICROSOFT CO."
     .endif
