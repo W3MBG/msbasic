@@ -246,6 +246,12 @@ L40D7:
         inc     LINNUM
         bne     L40DD
         inc     LINNUM+1
+.ifdef MBG
+; MBG: hard RAM top limit is $8000
+        lda     LINNUM+1
+        cmp     #$80
+        beq     L40FA
+.endif
 .ifdef CBM1
 ; CBM: hard RAM top limit is $8000
         lda     LINNUM+1
